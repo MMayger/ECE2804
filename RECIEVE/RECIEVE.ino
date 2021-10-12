@@ -75,11 +75,11 @@ void startRadio(){ //initialization of radio functions
   Serial.print(radio.getPowerLevel()); //prints power level for debugging
 }
 
-void SetChannel(int channelNo){ //sets frequency based on an input channel number. Valid inputs are integers 1 to 34
-  long int frequency = 433075000 + 50000 * (channelNo-1); //compute frequency by adding the channel 1 middle frequency plus 50k for ever channel after that
-  radio.setFrequency(frequency); //set the frequency calculated
+void SetChannel(int channelNo){ //sets frequency based on an input channel number. Valid inputs are integers 1 to 23
+  long int frequency = 433125000 + 75000 * (channelNo-1); //number is outside range of int
+  radio.setFrequency(frequency);
   Serial.print("SET FREQUENCY: ");
-  Serial.print(radio.getFrequency()); //debug frequency to ensure correct calcualations
+  Serial.print(radio.getFrequency());
   Serial.print("\n");
 }
 

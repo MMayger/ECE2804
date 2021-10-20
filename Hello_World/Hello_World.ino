@@ -63,7 +63,7 @@ void startRadio(){ //initialization of radio functions
   radio.initialize(FREQUENCY, NODEID, NETWORKID); //initializes radio using defined parameters
   SetChannel(CHANNEL);
   radio.setHighPower(); //sets radio as high power which must be done for RFM69HCW(what we have)
-  //radio.setPowerDBm(POWER);
+  radio.setPowerDBm(POWER);
 
   radio.writeReg(REG_BITRATEMSB, 0x68); //set bitrate to 1.2 kbps
   radio.writeReg(REG_BITRATELSB, 0x2B); 

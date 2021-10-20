@@ -70,7 +70,7 @@ void startDisplay(){ //initialization of display functions
 void startRadio(){ //initialization of radio functions
   radio.initialize(FREQUENCY, NODEID, NETWORKID); //initializes radio using defined parameters
   SetChannel(CHANNEL); //channel is an integer from 1 to 34
-  //radio.setHighPower(); //sets radio as high power which must be done for RFM69HCW(what we have)
+  radio.setHighPower(); //sets radio as high power which must be done for RFM69HCW(what we have)
   radio.setPowerDBm(POWER); //power must be a value from -2 to 20
   Serial.print(radio.getPowerLevel()); //prints power level for debugging
 

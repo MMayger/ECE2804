@@ -73,6 +73,10 @@ void startRadio(){ //initialization of radio functions
   //radio.setHighPower(); //sets radio as high power which must be done for RFM69HCW(what we have)
   radio.setPowerDBm(POWER); //power must be a value from -2 to 20
   Serial.print(radio.getPowerLevel()); //prints power level for debugging
+
+  
+  radio.writeReg(REG_BITRATEMSB, 0x68); //set bitrate to 1.2 kbps
+  radio.writeReg(REG_BITRATELSB, 0x2B); 
 }
 
 void SetChannel(int channelNo){ //sets frequency based on an input channel number. Valid inputs are integers 1 to 23

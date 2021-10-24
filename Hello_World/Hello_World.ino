@@ -1,3 +1,5 @@
+
+
 //Program Name: Hello World
 //Author: Matthew Mayger
 //ECE 2804
@@ -37,6 +39,13 @@
 #define YELLOWLEDPIN 6
 #define GREENLEDPIN 5
 
+//thermistor defines
+#define CONST_R0 10000
+#define CONST_T0 25
+#define CONST_B 3380
+#define THERM_PIN A0
+#define CONST_TK 273.15
+
 //-----------------------------------------
 
 RFM69 radio; //our RFM69 is now defined as the variable radio
@@ -55,7 +64,7 @@ void setup() {
   BlinkLED(REDLEDPIN, 500);
 
   Serial.print ("Setup Complete\n");
-  radio.readAllRegs();
+  //radio.readAllRegs();
 
 }
 
@@ -84,9 +93,22 @@ void BlinkLED(byte PIN, int Delay){ //blinks LED will be used with debugging
   digitalWrite(PIN, LOW);
 }
 
-char payload[] = "Hello World!!";
+float Read_Temp(){
+  int vout = analogRead(THERM_PIN); //read voltage accross thermistor
+  float voltage = vout/204.6; //convert arbitrary 1-1024 value to 0-5 volts
+
+  float i = (5-voltage)/CONST_R0; //uses found voltage to determine current going into thermistor
+  float R = voltage/i; //finds resistance of thermistor
+
+  return 1/((log(R/CONST_R0)/CONST_B)+(1/(CONST_T0+CONST_TK)))-CONST_TK; //use Beta Equation provided in data sheet to solve for temperature
+  
+}
 
 void loop() {
+  char payload[6]; //two digits, a decimal, two degits, null char
+  float Temp = Read_Temp();
+  dtostrf(Temp, 6, 2, payload);
+  
   if(radio.sendWithRetry(GATEWAYID, payload, strlen(payload))){ //send string in payload (an array of characters)
     BlinkLED(GREENLEDPIN, 1000); //blink green when send module recieves acknowledgement (radio.sendACK()) from receiver
     Serial.print("sent!\n"); //LEGACY for debugging

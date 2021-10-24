@@ -108,7 +108,7 @@ void radioDisplay(){ //when radio.receiveDone is true this function happens
 
   char buff[20];
   int rssi = radio.RSSI; //sets RSSI to variable
-  Serial.print(rssi);
+  //Serial.print(rssi);
   char rssiSTR[10];
   strcpy(buff, "RSSI: "); //populates buffer with initial string
   strcat(buff, itoa(rssi, rssiSTR, 10)); //appends the conversion of the integer rssi to the string rssiSTR
